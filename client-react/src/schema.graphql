@@ -1,0 +1,199 @@
+type DeviceConfigStatus {
+  lastUsedFirmwareFile: String!
+  lastUsedSDKFile: String!
+  deviceIsConfigured: Boolean!
+  importedFromCSV: Boolean!
+  lastUpdatedAt: String!
+}
+
+type TDeviceFieldsOptional {
+  shellUser: String
+  passForShellUser: String
+  serialNumber: String
+  SIMID: String
+  IMEI: String
+  LAN_MAC: String
+}
+
+type Device {
+  modell: DeviceModell!
+  wifiSSID: String!
+  webUser: String!
+  passForWebUser: String!
+  passWifi: String!
+  deviceFieldsOptional: TDeviceFieldsOptional
+  configStatus: DeviceConfigStatus
+}
+
+input IDeviceFieldsOptional {
+  shellUser: String
+  passForShellUser: String
+  serialNumber: String
+  SIMID: String
+  IMEI: String
+  LAN_MAC: String
+}
+
+input DeviceInfo {
+  modell: DeviceModell!
+  wifiSSID: String!
+  webUser: String!
+  passForWebUser: String!
+  passWifi: String!
+  deviceFieldsOptional: IDeviceFieldsOptional
+}
+
+input DeviceFilesForScript {
+  useThisFirmwareFile: String
+  useThisSDKFile: String
+}
+
+input Options {
+  kindOfConfig: ConfigOptions!
+  deviceFilesForScript: DeviceFilesForScript!
+}
+
+input DeviceConfigInput {
+  deviceInfo: DeviceInfo!
+  generateNewCredentials: Boolean!
+  options: Options!
+  configAgain: Boolean
+}
+
+type StatusAfterConfig {
+  statusAfterConfig: DeviceConfigStatus
+  successMsg: String!
+}
+
+type DevicesSuccess {
+  devices: [Device!]!
+}
+
+union ConfiguredDeviceResult = StatusAfterConfig | GraphqlError
+
+union GetDevicesResult = DevicesSuccess | GraphqlError
+
+union DeviceDetailedSearchResult = Device | GraphqlError
+
+input UpdateDeviceInput {
+  wifiSSIDOfDeviceToUpdate: String!
+  updateInput: DeviceConfigInput
+}
+
+type Mutation {
+  configAndMaybeAddDeviceInDB(deviceConfigInput: DeviceConfigInput!): ConfiguredDeviceResult!
+  updateAndMaybeConfigDeviceAgain(updateDeviceInput: UpdateDeviceInput!): ConfiguredDeviceResult!
+  deleteOneOrManyDevices(oneOrMoreSSIDToDelete: [String!]!): GeneralResult!
+  refreshToken: TokenResponse!
+  loginUser(loginInput: loginInput!): TokenResponse!
+  createUser(createUserInput: createUserInput!): GeneralResult!
+  updateUser(updateUserInput: updateUserInput!): GeneralResult!
+  updateSelf(updateSelfInput: updateSelfInput!): GeneralResult!
+  deleteUser(usernameOfToDeleteUser: String!): GeneralResult!
+}
+
+type Query {
+  getDevices: GetDevicesResult!
+  backupDATA: GeneralResult!
+  searchDeviceDetails(optionalSearchParam: String!): DeviceDetailedSearchResult!
+  importDataFromCSVToDB: GeneralResult!
+  getAllFiles: GetAllFilesResult!
+  getUsers: GetUsersResult!
+  logoutUser: Boolean!
+}
+
+enum UserRole {
+  ROOT
+  ADMIN
+  USER
+}
+
+enum DeviceModell {
+  RUT200
+  RUT230
+  RUT240
+  RUT260
+  RUT300
+  RUT360
+  RUT901
+  RUT906
+  RUT950
+  RUT951
+  RUT955
+  RUT956
+}
+
+enum ConfigOptions {
+  Option1
+  Option2
+  Option3
+}
+
+enum Department {
+  IT
+  OTHERS
+}
+
+type GraphqlError {
+  customError: String!
+}
+
+type Success {
+  successMsg: String!
+}
+
+union GeneralResult = Success | GraphqlError
+
+union GetAllFilesResult = TypeOfFiles | GraphqlError
+
+type File {
+  fileName: String!
+  folderName: String!
+}
+
+type TypeOfFiles {
+  configFiles: [File!]!
+  importedCSVFiles: [File!]!
+}
+
+type User {
+  username: String!
+  password: String!
+  verified: Boolean!
+  role: UserRole!
+  userDep: Department!
+}
+
+input loginInput {
+  username: String!
+  password: String!
+}
+
+input createUserInput {
+  username: String!
+  password: String!
+  role: UserRole!
+  userDep: Department!
+}
+
+input updateUserInput {
+  usernameOfToUpdateUser: String!
+  newUsername: String
+  newPassword: String
+  newRole: UserRole
+  newUserDep: Department
+}
+
+input updateSelfInput {
+  usernameOfToUpdateUser: String!
+  newUsername: String
+  newPassword: String
+}
+
+type UsersSuccess {
+  users: [User!]!
+}
+
+union TokenResponse = User | GraphqlError
+
+union GetUsersResult = UsersSuccess | GraphqlError

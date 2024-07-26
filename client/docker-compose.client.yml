@@ -1,0 +1,26 @@
+version: "3"
+services:
+  react_nginx_app:
+    image: ${IMAGE_CLIENT}
+    container_name: ${CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: ./Dockerfile.client
+    ports:
+      - "443:443"
+    volumes:
+      - ./cert:/etc/nginx/cert
+    env_file:
+      - ./.env
+    environment:
+      HOSTNAME: ${HOSTNAME_CLIENT}
+    restart: always
+
+    # Connect to the same network
+    networks:
+      - networkroutertonik 
+
+# Define the network
+networks:
+  networkroutertonik:
+    driver: bridge

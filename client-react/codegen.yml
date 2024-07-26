@@ -1,0 +1,20 @@
+overwrite: true
+schema: "./src/schema.graphql"
+documents: "./src/graphql/*.ts"
+generates:
+  ./src/generated/gql/:
+    preset: "client"
+
+    # plugins:
+    #   - "fragment-matcher"
+    #   - flutter-freezed:
+    #     camelCasedEnums: false 
+    config:
+      apolloClientVersion: 4
+
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+
+  ./src/generated/possibleTypes.ts:
+    plugins: ["fragment-matcher"]

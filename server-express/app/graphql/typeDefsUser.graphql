@@ -1,0 +1,70 @@
+# TYPE DEFINITIONS FOR USER #########################################################################################################################################################
+
+# user data
+type User {
+    username: String!
+    password: String!
+    verified: Boolean!
+    role: UserRole!
+    userDep: Department!
+}
+
+# for login
+input loginInput {
+    username: String!
+    password: String!
+}
+
+# to create a new user
+input createUserInput {
+    username: String!
+    password: String!
+    role: UserRole!
+    userDep: Department!
+}
+
+# input for updating a user, only root users can update other users
+input updateUserInput {
+    usernameOfToUpdateUser: String!
+    newUsername: String
+    newPassword: String
+    newRole: UserRole
+    newUserDep: Department
+}
+
+# user can only update his own password and username
+input updateSelfInput {
+    usernameOfToUpdateUser: String!
+    newUsername: String
+    newPassword: String
+}
+
+# on login
+# type UserResponse {
+#     user: User!
+# }
+
+# success result of users query
+type UsersSuccess {
+    users: [User!]!
+}
+
+# union for user token reponse, get users result, search user result
+union TokenResponse = User | GraphqlError
+union GetUsersResult = UsersSuccess | GraphqlError
+
+# login mutation
+type Mutation {
+    refreshToken: TokenResponse!
+    loginUser(loginInput: loginInput!): TokenResponse!
+    createUser(createUserInput: createUserInput!): GeneralResult!
+    updateUser(updateUserInput: updateUserInput!): GeneralResult!
+    updateSelf(updateSelfInput: updateSelfInput!): GeneralResult!
+    deleteUser(usernameOfToDeleteUser: String!): GeneralResult!
+}
+
+# current user, fetch users, logout user
+type Query {
+    getUsers: GetUsersResult!
+    logoutUser: Boolean!
+}

@@ -1,0 +1,106 @@
+.button {
+  position: relative;
+  height: 55px;
+  max-width: 300px;
+  width: 230px;
+  background: hsl(0, 0%, 100%);
+  border-radius: 7px;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none; /* Prevents all mouse events */
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: rgba(52, 52, 52, 0.8);
+  border-radius: 6px;
+  color: #fff;
+}
+
+.button.progress::before {
+  animation: progress 6s ease-in-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    left: -100%;
+  }
+  10% {
+    left: -97%;
+  }
+  20% {
+    left: -92%;
+  }
+  30% {
+    left: -82%;
+  }
+  30% {
+    left: -62%;
+  }
+  40% {
+    left: -38%;
+  }
+  50% {
+    left: -18%;
+  }
+  60% {
+    left: -14%;
+  }
+  80% {
+    left: -7%;
+  }
+  90% {
+    left: -3%;
+  }
+  100% {
+    left: 0%;
+  }
+}
+
+.button .text-icon {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .text-icon i,
+.button .text-icon span {
+  position: relative;
+  color: black;
+  font-size: 26px;
+  margin-left: 10px;
+}
+
+.button .text-icon span {
+  font-size: 20px;
+  font-weight: 400;
+
+}
+
+/* Add color classes */
+.button .text.cancel {
+  color: red;
+}
+
+
+.button .text.delete {
+  color: green;
+}
+
+.button .text.save,
+.button .text.done {
+  color: green;
+}

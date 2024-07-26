@@ -1,0 +1,125 @@
+# typeDefs for our Router device
+
+# Type DeviceConfigStatus, will give technical intel on the device
+type DeviceConfigStatus {
+    lastUsedFirmwareFile: String!
+    lastUsedSDKFile: String!
+    deviceIsConfigured: Boolean!
+    importedFromCSV: Boolean!
+    lastUpdatedAt: String!
+}
+
+#########################################################################################################################################################################
+type TDeviceFieldsOptional {
+    shellUser: String
+    passForShellUser: String
+    serialNumber: String
+    SIMID: String
+    IMEI: String
+    LAN_MAC: String
+}
+
+# device type
+type Device {
+    modell: DeviceModell!
+    wifiSSID: String!
+    webUser: String!
+    passForWebUser: String!
+    passWifi: String!
+
+    # nullable options
+    deviceFieldsOptional: TDeviceFieldsOptional # can be null or as default we set an empty {} in mongoose schema
+    configStatus: DeviceConfigStatus # can be null or as default we set an empty {} in mongoose schema
+}
+
+#########################################################################################################################################################################
+
+#optional input
+input IDeviceFieldsOptional {
+    shellUser: String
+    passForShellUser: String
+    serialNumber: String
+    SIMID: String
+    IMEI: String
+    LAN_MAC: String
+}
+
+# Input type DeviceInfo, input fields to pass
+# when configuring a new device, some infos are optionals
+input DeviceInfo {
+    modell: DeviceModell!
+    wifiSSID: String!
+    webUser: String!
+    passForWebUser: String!
+    passWifi: String!
+    deviceFieldsOptional: IDeviceFieldsOptional
+}
+
+# files for script
+input DeviceFilesForScript {
+    # regardless wether the file are being uploaded or used from the existing
+    # folders, we will get the names and search for them
+    useThisFirmwareFile: String
+    useThisSDKFile: String
+}
+
+# so to configure device, we need to tell which kind of config we want and provide the files
+input Options {
+    kindOfConfig: ConfigOptions!
+    deviceFilesForScript: DeviceFilesForScript! # will be set from client based on wether files are uploaded/or existing files are selected
+}
+
+# input to configure router device
+input DeviceConfigInput {
+    deviceInfo: DeviceInfo! # general data info needed
+    generateNewCredentials: Boolean! # user wants to create new passwords
+    options: Options!
+    configAgain: Boolean # if device is already in DB, ask user if he wants to config the device again
+}
+
+# Type StatusAfterConfig, will show us the current technical
+# intels on the device after config was done
+type StatusAfterConfig {
+    statusAfterConfig: DeviceConfigStatus
+    successMsg: String!
+}
+
+# success result of router devices query
+type DevicesSuccess {
+    devices: [Device!]!
+}
+
+# union ConfigDeviceResult, will return StatusAfterConfig or GraphqlError or Success (for devices only being configured)
+union ConfiguredDeviceResult = StatusAfterConfig | GraphqlError
+
+# Return all router devices or error object ###############################
+union GetDevicesResult = DevicesSuccess | GraphqlError
+
+# when a device is searched, get all fields ###############################
+union DeviceDetailedSearchResult = Device | GraphqlError
+
+# update device input
+input UpdateDeviceInput {
+    wifiSSIDOfDeviceToUpdate: String! # for updating we will search device by ssid
+    updateInput: DeviceConfigInput # we will use same as for creating device/config device first tim => to better distinguish: FRONT END FIELDS: newModell, newWifiSSID, etc.
+}
+
+#  mutations: config, add router, update and delete router/record
+type Mutation {
+    configAndMaybeAddDeviceInDB(
+        deviceConfigInput: DeviceConfigInput!
+    ): ConfiguredDeviceResult!
+    updateAndMaybeConfigDeviceAgain(
+        updateDeviceInput: UpdateDeviceInput!
+    ): ConfiguredDeviceResult!
+    deleteOneOrManyDevices(oneOrMoreSSIDToDelete: [String!]!): GeneralResult!
+}
+
+# queries: fetch all router devers, create backup, search more details on router device
+type Query {
+    getDevices: GetDevicesResult!
+    backupDATA: GeneralResult!
+    searchDeviceDetails(
+        optionalSearchParam: String!
+    ): DeviceDetailedSearchResult!
+}

@@ -1,0 +1,72 @@
+# user roles
+enum UserRole {
+    ROOT  # can do everything
+    ADMIN # can config/update/delete routers
+    USER  # can only view data
+}
+
+# device modells
+enum DeviceModell {
+    RUT200
+    RUT230
+    RUT240
+    RUT260
+    ##############################
+    RUT300
+    RUT360
+    ##############################
+    RUT901
+    RUT906
+    RUT950
+    RUT951
+    RUT955
+    RUT956
+}
+
+# distinguish between three different config options
+enum ConfigOptions {
+    Option1 # Configure and add device to DB/Configure device again, then update and add to DB
+    Option2 # Only configure device/configure and remove device from db 
+    Option3 # Add device to DB only/update device only
+}
+
+# departments, add other departments here if you want
+enum Department {
+    IT
+    OTHERS
+}
+
+# custom Error
+type GraphqlError {
+    customError: String!
+}
+
+# success msg on operations
+type Success {
+    successMsg: String!
+}
+
+# a general union for all fields that either return these two types
+union GeneralResult = Success | GraphqlError
+
+# union for file related operations 
+union GetAllFilesResult = TypeOfFiles | GraphqlError
+
+# when files are queried, we need name and folderName only
+type File {
+    fileName: String!
+    folderName: String!
+}
+
+# available files 
+type TypeOfFiles {
+    configFiles: [File!]!
+    importedCSVFiles: [File!]!
+}
+
+
+# general queries
+type Query {
+    importDataFromCSVToDB: GeneralResult! # query for uploading data from csv file inside db
+    getAllFiles: GetAllFilesResult! # query to get all files available, then we filter by config files or files from csv
+}

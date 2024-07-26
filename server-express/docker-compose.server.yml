@@ -1,0 +1,70 @@
+version: '3'
+services:
+    express-graphql-server:
+        image: 'img_express_graphql' # name of image
+        build:
+            context: .
+            dockerfile: ./Dockerfile.server
+        container_name: 'nodejs_backend_app' # container name
+        ports:
+            - '4000:4000'
+
+        # shared volumes
+        volumes:
+            - './cert:/usr/src/app/cert:ro'
+            - './sourceAndBackup:/usr/src/app/sourceAndBackup'
+            - './configFiles:/usr/src/app/configFiles'
+
+            # FIXME: MOUNT AUDIO ON CONTAINER
+            # - /dev/snd:/dev/snd
+            # - /tmp/.X11-unix:/tmp/.X11-unix
+
+        # environment variables
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+            URI_DOCKER: ${URI_NOT_LOCAL}
+            URI_LOCAL: ${URI_LOCAL}
+            AUTH_MECHANISM: ${AUTH_MECHANISM}
+            NODE_ENV: ${NODE_ENV}
+            HOSTING_ENV: ${HOSTING_ENV}
+            HOSTNAME: ${HOSTNAME_SERVER_PROD}
+
+        # Command to run the audio setup script and start the server
+        # FIXME:  command: /usr/src/app/start_with_audio.sh
+
+        restart: always
+        networks:
+            - networkroutertonik
+
+    # mongo service, use port 6000 on host, map to port 27017 on container,
+    # local mongo service uses port 27017
+    mongo:
+        image: mongo:latest
+        container_name: mongo
+        ports:
+            - '6000:27017'
+        volumes:
+            - mongoroutertonikdata:/data/db # use named volume for MongoDB data persistence
+            - './mongo_init_docker.sh:/docker-entrypoint-initdb.d/mongo_init_docker.sh:ro' # init script for mongodb
+
+        # env variables for mongodb
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+            MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+            AUTH_MECHANISM: 'SCRAM-SHA-256'
+        restart: always
+
+        # use same network as express-graphql-server
+        networks:
+            - networkroutertonik
+
+networks:
+    networkroutertonik:
+        driver: bridge # network driver will be bridge
+
+# use the volume for data persistance
+volumes:
+    mongoroutertonikdata:

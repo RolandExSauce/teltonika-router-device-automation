@@ -1,0 +1,13 @@
+#app {
+  height: 100vh;
+  display: flex;
+  position: relative;
+}
+
+.app main {
+  padding: 24px;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  overflow-y: auto;
+}
