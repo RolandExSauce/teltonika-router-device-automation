@@ -53,7 +53,6 @@ const CONFIG_DEVICE_MUTATION = gql`
 
 
 
-
 export {
   CONFIG_DEVICE_MUTATION,
 }

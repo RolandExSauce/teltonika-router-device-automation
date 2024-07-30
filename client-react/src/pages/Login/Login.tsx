@@ -7,7 +7,6 @@ import { TextField } from "@mui/material";
 import { ErrorMessage, Form, Formik } from "formik";
 import {
   rutDeviceIconImg,
-  teltonikaNetworksIconImg,
   userLoginAvatarIconImg,
 } from "../../assets/export-imgs";
 import { ILogin } from "../../utils/types";
@@ -49,7 +48,7 @@ const Login = () => {
           <div className="wrapper">
             <div className="container">
               <div className="img-container">
-                <img src={teltonikaNetworksIconImg} alt="Teltonika Networks" />
+                {/* <img src={teltonikaNetworksIconImg} alt="Teltonika Networks" /> */}
                 <img src={rutDeviceIconImg} alt="RUT Device" />
                 <p style={{ fontFamily: "Arial", color: "#0071c5" }}>
                   <i> We help you connect,</i>

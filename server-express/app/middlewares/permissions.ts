@@ -66,7 +66,7 @@ export const permissions = shield({
         //router device mutations
         configAndMaybeAddDeviceInDB: and(isAdminOrRootAndVerified), //admin or root can do operations on router device
         //updateDeviceData: and(isAuthenticated, isAdminOrRoot),
-        //deleteOneOrManyDevices: and(isAuthenticated, isRoot),
+        deleteOneOrManyDevices: and(isAuthenticated, isRootAndVerified),
 
         //user mutations
         createUser: and(isRootAndVerified),

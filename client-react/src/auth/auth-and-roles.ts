@@ -1,4 +1,3 @@
-
 import { useAppSelector } from "./redux/hooks";
 
 //so that we don't redefine this everywhere

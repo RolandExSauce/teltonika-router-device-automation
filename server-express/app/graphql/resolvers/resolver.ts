@@ -51,6 +51,7 @@ const DeviceResolvers: IResolvers = {
     },
     Mutation: {
         configAndMaybeAddDeviceInDB,
+        deleteOneOrManyDevices
         // updateDeviceData,
         // deleteOneOrManyDevices,
     },

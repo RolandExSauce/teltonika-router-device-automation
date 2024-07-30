@@ -2,8 +2,8 @@ import { SvgIcon } from "@mui/material";
 import { MRT_ColumnDef } from "material-react-table";
 import { Device } from "../../generated/gql/graphql";
 import {
-  configFalseIconSVG,
-  configTrueIconSVG,
+  confirmSymbolIconSVG,
+  notAllowedIconSVG,
 } from "../../assets/export-svgs";
 import { PasswordCell } from "./tools/stuff";
 
@@ -37,7 +37,7 @@ export const deviceColumns: MRT_ColumnDef<Device>[] = [
       <div style={divStyle}>
         <SvgIcon
           component={
-            cell.getValue<boolean>() ? configTrueIconSVG : configFalseIconSVG
+            cell.getValue<boolean>() ? confirmSymbolIconSVG : notAllowedIconSVG
           }
           inheritViewBox
         />

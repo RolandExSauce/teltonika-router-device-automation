@@ -71,7 +71,7 @@ const deviceSchema = new Schema<IDevice>(
             enum: Object.values(DeviceModell),
             required: [true, 'Provide a Modell for your Device'],
         },
-        wifiSSID: { type: String, unique: true, required: [true, 'Provide the WIFI SSID of your device'] }, 
+        wifiSSID: { type: String, unique: true, required: [true, 'Provide the WIFI SSID of your device'] },
         webUser: { type: String, required: [true, 'Device username is needed'] },
         passForWebUser: { type: String, required: [true, 'Password for Device required'] },
         passWifi: { type: String, required: [true, 'WIFI password required'] },
@@ -91,7 +91,7 @@ const deviceSchema = new Schema<IDevice>(
         configStatus: {
             lastUsedFirmwareFile: { type: String },
             lastUsedSDKFile: { type: String },
-            deviceIsConfigured: { type: Boolean },
+            deviceIsConfigured: { type: Boolean, default: false }, //when app starts, all devices are not configured by default
             importedFromCSV: { type: Boolean },
             lastUpdatedAt: { type: Date, get: transformedDate },
             default: {},

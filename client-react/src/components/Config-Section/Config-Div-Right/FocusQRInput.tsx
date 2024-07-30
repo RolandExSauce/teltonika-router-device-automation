@@ -1,15 +1,13 @@
 import { useRef, useEffect, useState } from "react";
 import {
-  clickHereIconImg,
   offSwitchIconImg,
   onSwitchIconImg,
-} from "../../assets/export-imgs";
-import "./styles/focusQR.css";
+  clickHereIconImg,
+} from "../../../assets/export-imgs";
+import { IFocusQRInput } from "../../../utils/types";
+import "../styles/FocusQRInput.css";
 
-interface IFocusQRInput {
-  onQrTextChange: ($txt: string) => void;
-}
-
+//section where you can focus qr input via the green/red button
 const FocusQRInput: React.FC<IFocusQRInput> = ({ onQrTextChange }) => {
   const [qrTxt, setQRTxt] = useState("");
   const [statusImg, setStatusImg] = useState(offSwitchIconImg);
@@ -80,7 +78,7 @@ const FocusQRInput: React.FC<IFocusQRInput> = ({ onQrTextChange }) => {
         <img src={statusImg} style={{ width: 40, height: 37 }} />
       </button>
       <p className="qr-status-text">
-        QR/SIM ID Catcher is:{" "}
+        QR Catcher is:{" "}
         <span style={{ fontWeight: "bold", color: statusColorAndText.color }}>
           {statusColorAndText.text}
         </span>

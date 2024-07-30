@@ -1,29 +1,14 @@
 import Button from "@mui/material/Button";
 import { SvgIcon } from "@mui/material";
 import {
-  configTrueIconSVG,
-  firmwareIconSVG,
   notAllowedIconSVG,
-  restoreBackupIconSVG,
-} from "../../../assets/export-svgs";
-import { IconMapKeys, UploadFileProps } from "../../../utils/types";
-import { VisuallyHiddenInput } from "../../Config-Section/utils/constants";
+  confirmSymbolIconSVG,
+} from "../../assets/export-svgs";
+import { UploadFileProps } from "../../utils/types";
+import { uploadTexts } from "./export-objects-and-arrays";
+import { UploadFileButtonStyles } from "./styles/styles-objects";
 
-
-// Define iconMap with the correct type
-const iconMap: Record<IconMapKeys, React.ElementType> = {
-  FIRMWARE: firmwareIconSVG,
-  SDK: restoreBackupIconSVG,
-  CSV: restoreBackupIconSVG, //TODO: change icon later
-};
-
-// Define uploadTexts for all FileTypes
-const uploadTexts: Record<IconMapKeys, { before: string; after: string }> = {
-  FIRMWARE: { before: "FIRMWARE FILE", after: "FW uploaded" },
-  SDK: { before: "BACKUP FILE", after: "BAK uploaded" },
-  CSV: { before: "CSV FILE", after: "CSV uploaded" },
-};
-
+// Custom upload button component
 const UploadFileButton: React.FC<UploadFileProps> = ({
   uploadButtonFor,
   fileIsUploaded,
@@ -31,46 +16,30 @@ const UploadFileButton: React.FC<UploadFileProps> = ({
   handleFileChange,
   resetInputRef,
 }) => {
-  // Determine the icon component
-  const IconComponent = iconMap[uploadButtonFor];
-
-  // Determine the text to display
+  // Which text to display
   const { before, after } = uploadTexts[uploadButtonFor];
 
   return (
-    <>
+    <div>
       <Button
         component="label"
         variant="contained"
-        startIcon={
-          !fileIsUploaded && (
-            <SvgIcon component={IconComponent} inheritViewBox />
-          )
-        }
         endIcon={
           <SvgIcon
-            component={fileIsUploaded ? configTrueIconSVG : notAllowedIconSVG}
+            component={
+              fileIsUploaded ? confirmSymbolIconSVG : notAllowedIconSVG
+            }
             inheritViewBox
           />
         }
         sx={{
-          boxShadow: 30,
-          fontSize: 12,
-          padding: 2,
-          width: "200px",
-          fontWeight: "bold",
-          fontFamily: "Arial",
-          borderRadius: "30px",
-          backgroundColor: "#FFFFFF",
+          ...UploadFileButtonStyles,
           color: fileIsUploaded ? "#1EB0FF" : "#000000",
-          "&:hover": {
-            backgroundColor: "#FFFFFF",
-          },
-          height: 57,
         }}
       >
         {fileIsUploaded ? after : before}
-        <VisuallyHiddenInput
+        <input
+          style={{ position: "absolute", left: "-9999px" }}
           type="file"
           accept={
             uploadButtonFor === "FIRMWARE"
@@ -83,8 +52,12 @@ const UploadFileButton: React.FC<UploadFileProps> = ({
           ref={resetInputRef}
         />
       </Button>
-      {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-    </>
+      {error && (
+        <p style={{ color: "red", textAlign: "center", marginTop: "5px" }}>
+          {error}
+        </p>
+      )}
+    </div>
   );
 };
 

@@ -65,12 +65,8 @@ export type DeviceFilesForScript = {
 };
 
 export type DeviceInfo = {
+  deviceFieldsMust: IDeviceFieldsMust;
   deviceFieldsOptional?: InputMaybe<IDeviceFieldsOptional>;
-  modell: DeviceModell;
-  passForWebUser: Scalars['String']['input'];
-  passWifi: Scalars['String']['input'];
-  webUser: Scalars['String']['input'];
-  wifiSSID: Scalars['String']['input'];
 };
 
 export enum DeviceModell {
@@ -110,6 +106,14 @@ export type GetUsersResult = GraphqlError | UsersSuccess;
 export type GraphqlError = {
   __typename?: 'GraphqlError';
   customError: Scalars['String']['output'];
+};
+
+export type IDeviceFieldsMust = {
+  modell: DeviceModell;
+  passForWebUser: Scalars['String']['input'];
+  passWifi: Scalars['String']['input'];
+  webUser: Scalars['String']['input'];
+  wifiSSID: Scalars['String']['input'];
 };
 
 export type IDeviceFieldsOptional = {
@@ -380,6 +384,7 @@ export type ResolversTypes = {
   GetDevicesResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['GetDevicesResult']>;
   GetUsersResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['GetUsersResult']>;
   GraphqlError: ResolverTypeWrapper<GraphqlError>;
+  IDeviceFieldsMust: IDeviceFieldsMust;
   IDeviceFieldsOptional: IDeviceFieldsOptional;
   Mutation: ResolverTypeWrapper<{}>;
   Options: Options;
@@ -418,6 +423,7 @@ export type ResolversParentTypes = {
   GetDevicesResult: ResolversUnionTypes<ResolversParentTypes>['GetDevicesResult'];
   GetUsersResult: ResolversUnionTypes<ResolversParentTypes>['GetUsersResult'];
   GraphqlError: GraphqlError;
+  IDeviceFieldsMust: IDeviceFieldsMust;
   IDeviceFieldsOptional: IDeviceFieldsOptional;
   Mutation: {};
   Options: Options;

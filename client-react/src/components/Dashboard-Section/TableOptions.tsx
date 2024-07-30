@@ -12,7 +12,6 @@ import {
   Tooltip,
 } from "@mui/material";
 
-import OpButton from "../Global/buttons/OpButton";
 import { styleObjectsTableOptions } from "./tools/style-objects";
 import { editPencilIconImg, noResultIconImg } from "../../assets/export-imgs";
 import {
@@ -22,6 +21,7 @@ import {
   restoreBackupIconSVG,
   saveIconSVG,
 } from "../../assets/export-svgs";
+import OpButton from "../Global/OpButton";
 
 // Set up table with the options
 export const getTableOptions = (

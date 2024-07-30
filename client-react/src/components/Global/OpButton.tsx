@@ -5,26 +5,10 @@ import React, {
   useCallback,
   CSSProperties,
 } from "react";
-import "./OpButton.css";
-import { SvgIcon, SxProps, Theme } from "@mui/material";
+import "./styles/OpButton.css";
+import { SvgIcon } from "@mui/material";
+import { IOpButtonProps } from "../../utils/types";
 
-interface IOpButtonProps {
-  handleClick: () => void;
-  disabled: boolean;
-  opButtonTxt?: string;
-  buttonIcon: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement> & {
-      title?: string;
-    }
-  >;
-  buttonStyleOptions?: {
-    buttonStyles?: CSSProperties;
-    iconStyles?: SxProps<Theme>;
-  };
-  borderRounded?: boolean; //borders are rounded
-  buttonIsDynamic: boolean; // the animation effect will only be applied on download and backup data buttons
-  typeButtonIfDynamic?: "BACK" | "DOWNLOAD"; //if button is dynamic we know that it will either be the download button or backup button
-}
 
 //This reusable button component will be used throughout the entire application,
 //"Op" for Operation, so the button will trigger operations so its not just a styled button
@@ -36,11 +20,13 @@ const OpButton: React.FC<IOpButtonProps> = ({
   buttonStyleOptions,
   buttonIsDynamic,
   typeButtonIfDynamic,
+  roundButtonBorders
 }) => {
   //base button styles, merge with the passed styles for the specific button (if passed at all)
   const baseButtonStyles: CSSProperties = {
     padding: "10px 22px 10px 22px",
     width: "max-content",
+    borderRadius: roundButtonBorders ? "40px" : "",
     //pass the custom style for appropriate button after 
     //the base style so that it can be overriden
     ...buttonStyleOptions?.buttonStyles,

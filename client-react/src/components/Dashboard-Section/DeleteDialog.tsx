@@ -5,16 +5,17 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import { deleteWarningIconImg } from "../../assets/export-imgs";
+import { warningSymbolIconImg } from "../../assets/export-imgs";
 import {
   notAllowedIconSVG,
   confirmSymbolIconSVG,
 } from "../../assets/export-svgs";
-import OpButton from "../Global/buttons/OpButton";
+
 import { inputStyle } from "./DeviceColumns";
 import React, { useCallback, useState } from "react";
 import { MRT_Row } from "material-react-table";
 import { Device } from "../../generated/gql/graphql";
+import OpButton from "../Global/OpButton";
 
 interface IDeleteDialogProps {
   openDialog: boolean;
@@ -82,7 +83,7 @@ const DeleteDialog: React.FC<IDeleteDialogProps> = ({
           }}
         >
           <img
-            src={deleteWarningIconImg}
+            src={warningSymbolIconImg}
             style={{ width: "50px", height: "50px" }}
           />
           <span

@@ -5,21 +5,21 @@ import { DeviceInfo, DeviceFilesForScript } from '../../generated/generated__typ
 
 //add device in DB
 export const addDeviceToDB = async (
-    deviceInfo: DeviceInfo,
+    { deviceFieldsMust: { modell, passForWebUser, passWifi, webUser, wifiSSID }, deviceFieldsOptional }: DeviceInfo,
     deviceFilesForScript: DeviceFilesForScript,
     genNewCredentials: boolean,
     isBeingConfigured: boolean = false //by default will not be configured
 ) => {
     //get fields passed by user
-    const {
-        modell,
-        wifiSSID,
-        webUser,
-        passForWebUser,
-        passWifi,
-        //optional information
-        deviceFieldsOptional,
-    } = deviceInfo
+    // const {
+    //     modell,
+    //     wifiSSID,
+    //     webUser,
+    //     passForWebUser,
+    //     passWifi,
+    //     //optional information
+    //     deviceFieldsOptional,
+    // } = deviceInfo
 
     //device config status
     const configStatus = {

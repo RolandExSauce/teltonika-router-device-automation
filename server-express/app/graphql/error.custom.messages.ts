@@ -5,8 +5,12 @@ const WRONG_PASSWORD = 'Password incorrect'
 const CANNOT_DELETE_ROUTER = 'Router cannot be deleted as it does not exist'
 const NO_ROUTER_EXIST = 'No router found with this information'
 
-const DELETE_WHERE_FOR_ROUTER_MISSING =
-    ' Serialnumber was not provided, cannot delete router!'
+
+
+const ONE_OR_MORE_SSID_MISSING_FOR_DELETE = 'Provide wifi ssid of device or multiple ssids to delete';
+
+// const DELETE_WHERE_FOR_ROUTER_MISSING =
+//     ' Serialnumber was not provided, cannot delete router!'
 
 const ROUTER_DELETED_BUT_BACKUP_FILE_NOT_UPDATED =
     'Router deleted, but backup file could not be updated' //unlikely to happen unless problems with fs module
@@ -100,7 +104,7 @@ export {
     CANNOT_DELETE_ROUTER,
     FORBIDDEN_IF_NO_AUTH,
     NO_RECORDS_EMPTY_COL_DEVICE,
-    DELETE_WHERE_FOR_ROUTER_MISSING,
+    ONE_OR_MORE_SSID_MISSING_FOR_DELETE,
     /******************************* */
     FORBIDDEN_REQUEST_FOR_USERS,
     ROUTER_DELETED_BUT_BACKUP_FILE_NOT_UPDATED,

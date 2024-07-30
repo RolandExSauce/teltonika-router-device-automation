@@ -1,8 +1,75 @@
 /*For sidebar ************************************** */
 
+import { Theme } from "@emotion/react";
+import { SxProps } from "@mui/material";
+import { CSSProperties } from "react";
 import { store } from "../auth/redux/store";
-import { Device, User } from "../generated/gql/graphql";
+import {
+  // Device, 
+  User
+} from "../generated/gql/graphql";
 import { SelectChangeEvent } from "@mui/material/Select";
+
+
+export interface ICustomAccordionProps {
+  handleAccordionChange: (e: React.SyntheticEvent, expanded: boolean) => void;
+  expanded: boolean;
+  accTitle: string; //accordion title
+  accSubTitle?: string; //an optional subtitle
+  accDetailsType: "INSTRUCTION" | "CUSTOM_TEXTFIELDS_OPTIONALS";
+  DetailsArea: JSX.Element;
+}
+
+export interface IOpButtonProps {
+  handleClick: () => void;
+  disabled: boolean;
+  opButtonTxt?: string;
+  buttonIcon: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement> & {
+      title?: string;
+    }
+  >;
+  buttonStyleOptions?: {
+    buttonStyles?: CSSProperties;
+    iconStyles?: SxProps<Theme>;
+  };
+  roundButtonBorders?: boolean; //borders are rounded
+  buttonIsDynamic: boolean; // the animation effect will only be applied on download and backup data buttons
+  typeButtonIfDynamic?: "BACK" | "DOWNLOAD"; //if button is dynamic we know that it will either be the download button or backup button
+}
+
+
+export interface ICustomTextFieldProps {
+  inputProps: {
+    id: string;
+    name: string;
+    type: "password" | "text";
+    value: string;
+    placeHolderTxt?: string; //optional
+  };
+  disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+
+export interface IFocusQRInput {
+  onQrTextChange: ($txt: string) => void;
+}
+
+export interface IDeviceInputFieldsProps {
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  data: IInputFieldsArr[];
+}
+
+
+export interface IInputFieldsArr {
+  label: string;
+  id: string;
+  value: string;
+}
+
 
 //For Redux:
 interface AuthState {
@@ -19,7 +86,6 @@ type RootState = ReturnType<typeof store.getState>;
 type AppDispatch = typeof store.dispatch;
 
 
-
 //sidebar props
 interface SidebarProps {
   collapsed: boolean;
@@ -29,17 +95,24 @@ interface SidebarProps {
 }
 
 
-type FileTypes = 'FIRMWARE' | 'SDK' | 'CSV' | 'RUTVERSION';
+type FileTypes = 'FIRMWARE' | 'SDK' | 'CSV' | 'RUTVERSION' | 'CONFIG_TYPE';
 
+
+type TSVG = React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
+  title?: string;
+}>
+
+
+//TODO: change selectFor to its own type
 //props for ExistingFiles and RUTVersionSelect components
-interface DropDownSelectProps {
+interface IDropDownSelectProps {
   selectFor?: FileTypes
   onChange: (e: SelectChangeEvent) => void;
 }
 
 
 //bootstrap profile dialog props
-interface BootStrapDialogProps {
+interface IAuthProfil {
   open: boolean;
   onClose: () => void;
 }
@@ -59,29 +132,28 @@ interface UploadFileProps {
 }
 
 
-interface InputCheckProps {
+interface ICheckBoxInputProps {
   label?: string;
-  useFiles: boolean;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputChecked: boolean;
+  handleInputCheckedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 
 
 /**************************************** */
 //get only necessary fields from type "Router"
-type OptionalExceptFor<T, TRequired extends keyof T> = Partial<T> &
-  Pick<T, TRequired>;
+// type OptionalExceptFor<T, TRequired extends keyof T> = Partial<T> &
+//   Pick<T, TRequired>;
 
 
 //must be passed when configuring router (to store in database)
-type GetTypesForInputs = OptionalExceptFor<
-  Device,
-  | "wifiSSID"
-  | "passForWebUser"
-  | "passWifi"
-// | "deviceFieldsOptional"
-
->;
+// type GetTypesForInputs = OptionalExceptFor<
+//   Device,
+//   | "wifiSSID"
+//   | "passForWebUser"
+//   | "passWifi"
+// // | "deviceFieldsOptional"
+// >;
 
 
 // | "routerSSID"
@@ -120,18 +192,8 @@ type GetTypesForInputs = OptionalExceptFor<
 // };
 
 
-interface ConfigStepsDropDownProps {
-  handleAccordionChange: (e: React.SyntheticEvent, expanded: boolean) => void;
-  expanded: boolean;
-}
 
 
-
-
-//props for SelectConfigType component
-interface SelectConfigTypeProps {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
 
 // for AutoSteps.tsx file 
 interface ITodoStep {
@@ -161,18 +223,16 @@ export {
   IUser,
   RootState,
   AppDispatch,
-
-  SelectConfigTypeProps,
   UploadFileProps,
-  DropDownSelectProps,
-  ConfigStepsDropDownProps,
-  InputCheckProps,
+  IDropDownSelectProps,
+  ICheckBoxInputProps,
   ILogin,
   SidebarProps,
-  BootStrapDialogProps,
+  IAuthProfil,
   // IConfStatus
   IconMapKeys,
   ITodoStep,
   IChar,
   FileTypes,
+  TSVG
 }

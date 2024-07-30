@@ -34,12 +34,16 @@ input IDeviceFieldsOptional {
   LAN_MAC: String
 }
 
-input DeviceInfo {
+input IDeviceFieldsMust {
   modell: DeviceModell!
   wifiSSID: String!
   webUser: String!
   passForWebUser: String!
   passWifi: String!
+}
+
+input DeviceInfo {
+  deviceFieldsMust: IDeviceFieldsMust!
   deviceFieldsOptional: IDeviceFieldsOptional
 }
 

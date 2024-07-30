@@ -11,9 +11,7 @@ import { maybeGenNewPasswords } from '../../../../script/tools/utils'
 
 //function to configure router device
 export const configDevice = async (
-    deviceInfo: Pick<DeviceInfo,
-        'webUser' | 'passForWebUser' | 'passWifi' |
-        'modell' | 'wifiSSID'>,
+    { deviceFieldsMust}: DeviceInfo,
     genNewCredentials: boolean,
     { deviceFilesForScript }: Omit<Options, 'kindOfConfig'> // omit kindOfConfig as we don't need it anymore
 ) => {
@@ -24,7 +22,7 @@ export const configDevice = async (
         webUser,
         passForWebUser,
         passWifi,
-    } = deviceInfo
+    } = deviceFieldsMust
 
     //store password data in an object
     const passData = {

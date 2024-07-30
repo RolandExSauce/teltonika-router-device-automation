@@ -1,27 +1,64 @@
 import {
+    GeneralResult,
     MutationDeleteOneOrManyDevicesArgs,
 } from '../generated/generated__types'
 import { DeviceModel } from '../../database/schemas/schemas'
 import {
     CANNOT_DELETE_ROUTER,
-    DELETE_WHERE_FOR_ROUTER_MISSING,
+    ONE_OR_MORE_SSID_MISSING_FOR_DELETE,
     ROUTER_ALTERED,
     ROUTER_DELETED_BUT_BACKUP_FILE_NOT_UPDATED,
 } from '../error.custom.messages'
 import json2csv from 'json2csv'
 import path from 'path'
 import fs from 'fs'
-import { GraphqlOperationGeneralResponse } from '../../utils/types'
+
 
 //delete router resolver
 export const deleteOneOrManyDevices = async (
     _: undefined,
     { oneOrMoreSSIDToDelete }: MutationDeleteOneOrManyDevicesArgs
-): GraphqlOperationGeneralResponse => {
-    if (oneOrMoreSSIDToDelete.length === 0) {
-        return { customError: DELETE_WHERE_FOR_ROUTER_MISSING }
+): Promise<GeneralResult> => {
+
+    //user should not be able to delete more than 5 records at once
+    if (oneOrMoreSSIDToDelete.length > 5) {
+        return {
+            customError: 'Cannot delete more than 5 devices at once' //just to controll this
+        }
     }
 
+    try {
+        if (oneOrMoreSSIDToDelete.length === 0) {
+            return { customError: ONE_OR_MORE_SSID_MISSING_FOR_DELETE }
+        }
+
+        else {
+
+            //TODO: display name of deleted devices ?
+            const deleteResponse =
+                await DeviceModel.deleteMany({
+                    wifiSSID: { $in: oneOrMoreSSIDToDelete },
+                    // returnOriginal: true //TODO: returnOrignal not working ???
+                })
+            //LATER: TODO: also delete from csv file
+
+            console.log("delete response: ", deleteResponse)
+            return {
+                successMsg: 'failed'
+            }
+        }
+
+    }
+
+    catch (e) {
+
+        console.log("error in delete: ", e)
+
+        return {
+            customError: "bruhh error"
+        }
+
+    }
     // const routerToDelete = await DeviceModel.findOne({ serialNumber });
     // if (!routerToDelete) {
     //   return { customError: CANNOT_DELETE_ROUTER };
@@ -59,7 +96,7 @@ export const deleteOneOrManyDevices = async (
     //   };
     // }
 
-    return {
-        customError: ROUTER_DELETED_BUT_BACKUP_FILE_NOT_UPDATED,
-    }
+    // return {
+    //     customError: ROUTER_DELETED_BUT_BACKUP_FILE_NOT_UPDATED,
+    // }
 }

@@ -32,7 +32,7 @@ export const configAndMaybeAddDeviceInDB = async (
         const option2 = options.kindOfConfig === 'Option2'; // Option 2 selected, only configure device
         const option3 = options.kindOfConfig === 'Option3'; // Option 3 selected, add device to db only
 
-        const existingDevice = await DeviceModel.findOne({ wifiSSID: deviceInfo.wifiSSID }) as Device;
+        const existingDevice = await DeviceModel.findOne({ wifiSSID: deviceInfo.deviceFieldsMust.wifiSSID }) as Device;
         // If device exists already in db, prompt user for confirmation
         if (existingDevice && (option1 || option3)) {
             const configStatus = existingDevice.configStatus?.deviceIsConfigured

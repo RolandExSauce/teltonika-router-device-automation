@@ -1,4 +1,3 @@
-import InfoPdf from "../utils/instructions_connecting_device_to_internet.pdf";
 import { ITodoStep } from "../../../utils/types";
 import {
   approvedIconImg,
@@ -6,27 +5,7 @@ import {
   plugIconImg,
   typeOrScanInfoIconImg,
 } from "../../../assets/export-imgs";
-
-// Common style object
-const commonTextStyle = {
-  fontSize: 21,
-  lineHeight: 1.5,
-};
-
-const stepNumberStyle = {
-  color: "#00538C",
-  fontWeight: "bold",
-  fontSize: 20,
-  marginRight: 5,
-};
-
-const linkStyle = {
-  textDecoration: "none",
-  color: "#0077c0",
-  display: "inline",
-  marginLeft: 5,
-  fontSize: 21,
-};
+import { commonTextStyle, stepNumberStyle } from "../styles/style-objects";
 
 // Array containing steps for configuring router
 export const automationStepsArray: ITodoStep[] = [
@@ -37,15 +16,7 @@ export const automationStepsArray: ITodoStep[] = [
       <p style={commonTextStyle}>
         <span style={stepNumberStyle}>1.</span>
         Plug your Router device and establish an internet connection to your
-        machine using WIFI or a LAN cable. For help
-        <a
-          href={InfoPdf}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={linkStyle}
-        >
-          click here
-        </a>
+        machine using WIFI or a LAN cable.
       </p>
     ),
   },
@@ -68,9 +39,9 @@ export const automationStepsArray: ITodoStep[] = [
         <span style={stepNumberStyle}>3.</span>
         If you turned on the Catcher via Switch, then don't move your cursor
         anymore because it's a focused hidden input element for capturing data
-        via a Scanner Device. If you use the Catcher, click decrypt; afterwards,
-        you can edit the info if necessary. If you enter data manually, just hit
-        the config button and you're good!
+        via a Scanner Device. After scanning, click decrypt; afterwards, you can
+        edit the info if necessary. If you enter data manually, just hit the
+        config button and you're good!
       </p>
     ),
   },
@@ -81,7 +52,10 @@ export const automationStepsArray: ITodoStep[] = [
 ];
 
 // Render step images: plug, scan, configure, and done
-export const renderStepImgAndText = ({ stepName, imgSrc }: ITodoStep, index: number) => (
+export const renderStepImgAndText = (
+  { stepName, imgSrc }: ITodoStep,
+  index: number
+) => (
   <div
     key={index}
     style={{ display: "flex", flexDirection: "column", alignItems: "center" }}

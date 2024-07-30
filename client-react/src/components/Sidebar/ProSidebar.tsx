@@ -5,15 +5,16 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ProfilDialog from "./AuthProfil";
+import AuthProfil from "./AuthProfil";
 import React, { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
-import { AdminRoutes } from "./tools";
+import { AdminRoutes } from "./AdminRoutes";
 import { LOGOUT_USER_QUERY } from "../../graphql/queries";
 import { client } from "../../auth/apolloClient";
 import { Query } from "../../generated/gql/graphql";
 import { SidebarProps } from "../../utils/types";
 import "./ProSidebar.css";
+import { AuthAndUserRoles } from "../../auth/auth-and-roles";
 
 const ProSidebar: React.FC<SidebarProps> = ({
   collapsed,
@@ -22,6 +23,10 @@ const ProSidebar: React.FC<SidebarProps> = ({
   handleCollapsedChange,
 }) => {
   const navigate = useNavigate();
+  const {
+    userRoles: { adminOrRootUser },
+  } = AuthAndUserRoles();
+
   const [logoutUser] = useLazyQuery<Query>(LOGOUT_USER_QUERY);
   const [open, setOpen] = useState(false);
 
@@ -43,7 +48,7 @@ const ProSidebar: React.FC<SidebarProps> = ({
       rootStyles={{
         "& .ps-sidebar-container": {
           backgroundColor: "#100c08 !important",
-          height: "100%"
+          height: "100%",
         },
       }}
     >
@@ -96,29 +101,35 @@ const ProSidebar: React.FC<SidebarProps> = ({
         >
           <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
             <DashboardIcon />
-            <h3 style={{ fontWeight: "bold", marginTop: 3.5 }}>Data Dashboard</h3>
+            <h3 style={{ fontWeight: "bold", marginTop: 3.5 }}>
+              Data Dashboard
+            </h3>
           </div>
         </MenuItem>
 
-        <SubMenu
-          rootStyles={{
-            color:
-              window.location.pathname === "/config-board" ||
-              window.location.pathname === "/search-update" ||
-              window.location.pathname === "/app-settings"
-                ? "#1E90FF"
-                : "#FFFFF0",
-            ":hover": { color: "#100c08", backgroundColor: "#f5f5f5" },
-          }}
-          label={
-            <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
-              <AdminPanelSettingsIcon style={{ marginLeft: 3 }} />
-              <h3 style={{ fontWeight: "bold", marginTop: 3.5 }}>Admin board</h3>
-            </div>
-          }
-        >
-          {!collapsed && <AdminRoutes isVisible={!collapsed} />}
-        </SubMenu>
+        {adminOrRootUser && (
+          <SubMenu
+            rootStyles={{
+              color:
+                window.location.pathname === "/config-board" ||
+                window.location.pathname === "/search-update" ||
+                window.location.pathname === "/app-settings"
+                  ? "#1E90FF"
+                  : "#FFFFF0",
+              ":hover": { color: "#100c08", backgroundColor: "#f5f5f5" },
+            }}
+            label={
+              <div style={{ display: "flex", flexDirection: "row", gap: 15 }}>
+                <AdminPanelSettingsIcon style={{ marginLeft: 3 }} />
+                <h3 style={{ fontWeight: "bold", marginTop: 3.5 }}>
+                  Admin board
+                </h3>
+              </div>
+            }
+          >
+            {!collapsed && <AdminRoutes isVisible={!collapsed} />}
+          </SubMenu>
+        )}
       </Menu>
 
       <div
@@ -166,7 +177,7 @@ const ProSidebar: React.FC<SidebarProps> = ({
           {!collapsed && <span className="sidebar-btn-text">Logout</span>}
         </button>
       </div>
-      <ProfilDialog open={open} onClose={handleClose} />
+      <AuthProfil open={open} onClose={handleClose} />
     </Sidebar>
   );
 };

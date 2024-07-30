@@ -2,9 +2,7 @@
 import addToDBSVG from "./svgs/addToDB.svg?react";
 import backupRestoreSVG from "./svgs/backupRestore.svg?react";
 import configAndAddToDBSVG from "./svgs/configAndAddToDB.svg?react";
-import configFalseSVG from "./svgs/configFalse.svg?react";
 import configOnlySVG from "./svgs/configOnly.svg?react";
-import configTrueSVG from "./svgs/configTrue.svg?react";
 import confirmSymbolSVG from "./svgs/confirmSymbol.svg?react";
 import copyPasteSVG from "./svgs/copyPaste.svg?react";
 import decryptLockSVG from "./svgs/decryptLock.svg?react";
@@ -12,7 +10,6 @@ import deleteSVG from "./svgs/deleteSymbol.svg?react"
 import downloadSVG from "./svgs/downloadSymbol.svg?react";
 import editSearchBlackSVG from "./svgs/editSearchBlack.svg?react";
 import editSearchBlueSVG from "./svgs/editSearchBlue.svg?react";
-import firmwareSymbolSVG from "./svgs/firmwareSymbol.svg?react";
 import notAllowedSVG from "./svgs/notAllowed.svg?react";
 import resetSVG from "./svgs/resetIcon.svg?react";
 import saveSVG from "./svgs/saveIcon.svg?react"
@@ -24,9 +21,7 @@ import teltonikaSymbolSVG from "./svgs/teltonikaSymbol.svg?react"
 const addToDBIconSVG = addToDBSVG;
 const restoreBackupIconSVG = backupRestoreSVG;
 const configAndAddToDBIconSVG = configAndAddToDBSVG;
-const configFalseIconSVG = configFalseSVG;
 const configOnlyIconSVG = configOnlySVG;
-const configTrueIconSVG = configTrueSVG;
 const confirmSymbolIconSVG = confirmSymbolSVG;
 const copyPasteIconSVG = copyPasteSVG;
 const decryptLockIconSVG = decryptLockSVG;
@@ -34,7 +29,6 @@ const deleteIconSVG = deleteSVG;
 const downloadIconSVG = downloadSVG;
 const editSearchBlackIconSVG = editSearchBlackSVG;
 const editSearchBlueIconSVG = editSearchBlueSVG;
-const firmwareIconSVG = firmwareSymbolSVG;
 const notAllowedIconSVG = notAllowedSVG;
 const resetIconSVG = resetSVG;
 const saveIconSVG = saveSVG;
@@ -46,9 +40,7 @@ export {
     addToDBIconSVG,
     restoreBackupIconSVG,
     configAndAddToDBIconSVG,
-    configFalseIconSVG,
     configOnlyIconSVG,
-    configTrueIconSVG,
     confirmSymbolIconSVG,
     copyPasteIconSVG,
     decryptLockIconSVG,
@@ -56,7 +48,6 @@ export {
     downloadIconSVG,
     editSearchBlackIconSVG,
     editSearchBlueIconSVG,
-    firmwareIconSVG,
     notAllowedIconSVG,
     resetIconSVG,
     saveIconSVG,

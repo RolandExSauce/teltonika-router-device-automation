@@ -44,14 +44,19 @@ input IDeviceFieldsOptional {
     LAN_MAC: String
 }
 
-# Input type DeviceInfo, input fields to pass
-# when configuring a new device, some infos are optionals
-input DeviceInfo {
+#mandatory input fields, altered cuz of frontend structure
+input IDeviceFieldsMust {
     modell: DeviceModell!
     wifiSSID: String!
     webUser: String!
     passForWebUser: String!
     passWifi: String!
+}
+
+# Input type DeviceInfo, input fields to pass
+# when configuring a new device, some infos are optionals
+input DeviceInfo {
+    deviceFieldsMust: IDeviceFieldsMust!
     deviceFieldsOptional: IDeviceFieldsOptional
 }
 

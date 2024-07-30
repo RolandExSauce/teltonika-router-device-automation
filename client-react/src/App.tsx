@@ -2,11 +2,11 @@ import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ProSidebar from "./components/Sidebar/ProSidebar";
 import DeviceTable from "./components/Dashboard-Section/DeviceTable";
-import ConfigBoard from "./components/Config-Section/ConfigBoard";
 import SearchAndUpdate from "./components/Search-Update-Device/SearchAndUpdate";
 import AppSettings from "./components/App-Settings/AppSettings";
 import Login from "./pages/Login/Login";
 import { useAppSelector } from "./auth/redux/hooks";
+import ConfigBoard from "./components/Config-Section/Config-Div-Right/ConfigBoard";
 import "./App.css";
 
 

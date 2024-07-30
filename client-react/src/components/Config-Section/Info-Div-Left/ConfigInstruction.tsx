@@ -1,12 +1,20 @@
-import { CSSProperties, useState } from "react";
+import { useState } from "react";
 import AutomationStepImgAndText from "./AutoSteps";
-import ConfigStepsDropDown from "./ConfigStepsDropDown";
+import CustomAccordion from "../../Global/CustomAccordion";
 import {
-  lazyGarfieldIconImg,
   warningSymbolIconImg,
+  lazyGarfieldIconImg,
 } from "../../../assets/export-imgs";
-import "../styles/config.css";
+import { automationStepsArray } from "./automationSteps";
+import { InstructionContentAsAccordionDetails } from "../../Global/AccordionDetails";
+import {
+  warningStyle,
+  imageStyle,
+  textStyle,
+  lazyGarfieldStyle,
+} from "../styles/style-objects";
 
+//Left side show config instruction
 const ConfigInstruction = () => {
   const [expandedAccordion, setExpandedAccordion] = useState(false);
   const handleAccordionChange = (
@@ -16,41 +24,21 @@ const ConfigInstruction = () => {
     setExpandedAccordion(expanded);
   };
 
-  const warningStyle: CSSProperties = {
-    backgroundColor: "#ffeaea",
-    padding: "15px 0px 15px 10px",
-    borderRadius: "15px",
-    display: "flex",
-    flexDirection: "row",
-    marginTop: "50px",
-    width: "94%",
-  };
-
-  const imageStyle = {
-    width: 80,
-    height: 80,
-    margin: 10,
-  };
-
-  const textStyle = {
-    fontSize: "1.5rem",
-    lineHeight: 1.5,
-  };
-
-  const lazyGarfieldStyle = {
-    width: "90%",
-    marginTop: 20,
-    paddingTop: 20,
-    borderRadius: 30,
-  };
-
   return (
     <div className="content">
       <AutomationStepImgAndText />
-      <ConfigStepsDropDown
-        expanded={expandedAccordion}
-        handleAccordionChange={handleAccordionChange}
-      />
+      <div style={{ width: "94%" }}>
+        <CustomAccordion
+          accTitle="Use Dropdown to view explanation"
+          accSubTitle="Here is a demo video, click here"
+          accDetailsType="INSTRUCTION"
+          expanded={expandedAccordion}
+          handleAccordionChange={handleAccordionChange}
+          DetailsArea={InstructionContentAsAccordionDetails(
+            automationStepsArray
+          )}
+        />
+      </div>
       <div style={warningStyle}>
         <img
           src={warningSymbolIconImg}

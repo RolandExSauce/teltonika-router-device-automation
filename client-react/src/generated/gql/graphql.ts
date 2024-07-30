@@ -64,12 +64,8 @@ export type DeviceFilesForScript = {
 };
 
 export type DeviceInfo = {
+  deviceFieldsMust: IDeviceFieldsMust;
   deviceFieldsOptional?: InputMaybe<IDeviceFieldsOptional>;
-  modell: DeviceModell;
-  passForWebUser: Scalars['String']['input'];
-  passWifi: Scalars['String']['input'];
-  webUser: Scalars['String']['input'];
-  wifiSSID: Scalars['String']['input'];
 };
 
 export enum DeviceModell {
@@ -109,6 +105,14 @@ export type GetUsersResult = GraphqlError | UsersSuccess;
 export type GraphqlError = {
   __typename?: 'GraphqlError';
   customError: Scalars['String']['output'];
+};
+
+export type IDeviceFieldsMust = {
+  modell: DeviceModell;
+  passForWebUser: Scalars['String']['input'];
+  passWifi: Scalars['String']['input'];
+  webUser: Scalars['String']['input'];
+  wifiSSID: Scalars['String']['input'];
 };
 
 export type IDeviceFieldsOptional = {
